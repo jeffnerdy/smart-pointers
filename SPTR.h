@@ -1,8 +1,6 @@
-//note to self: overload the * operator
-
 #pragma once
 
-#include <iostream>
+//#include <iostream>
 #include <vector>
 
 
