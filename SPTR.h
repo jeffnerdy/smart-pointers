@@ -1,7 +1,10 @@
+//note to self: overload the * operator
+
 #pragma once
 
 #include <iostream>
 #include <vector>
+
 
 //UNIQUE
 template <typename T>
@@ -15,9 +18,25 @@ private:
     Unique(const Unique& ptr);
 
 public:
+    T* operator->() const;
+    T operator*() const;
+
+public:
     Unique(T* ptr);
     ~Unique();
 };
+
+template <typename T>
+T* Unique<T>::operator->() const
+{
+    return m_ptr;
+}
+
+template <typename T>
+T Unique<T>::operator*() const
+{
+    return *m_ptr;
+}
 
 template <typename T>
 Unique<T>::Unique(T* ptr) : m_ptr(ptr)
@@ -51,6 +70,9 @@ private:
 public:
     T* getmptr() const;
 
+    T* operator->() const;
+    T operator*() const;
+
 public:
     Shared(T* ptr);
     Shared(const Shared& ptr);
@@ -67,6 +89,18 @@ template <typename T>
 T* Shared<T>::getmptr() const
 {
     return this->m_ptr;
+}
+
+template <typename T>
+T* Shared<T>::operator->() const
+{
+    return m_ptr;
+}
+
+template <typename T>
+T Shared<T>::operator*() const
+{
+    return *m_ptr;
 }
 
 template <typename T>
@@ -111,22 +145,27 @@ private:
     Weak();
 
 public:
+    T* operator->() const;
+    T operator*() const;
+
+public:
     Weak(const Shared<T>& ptr);
 };
+
+template <typename T>
+T* Weak<T>::operator->() const
+{
+    return m_ptr;
+}
+
+template <typename T>
+T Weak<T>::operator*() const
+{
+    return *m_ptr;
+}
 
 template <typename T>
 Weak<T>::Weak(const Shared<T>& ptr)
 {
     m_ptr = ptr.getmptr();
 }
-
-// ignore
-//template <typename T>
-//class SPTR
-//{
-//private:
-//    T* m_ptr;
-//
-//private:
-//    SPTR();
-//};
